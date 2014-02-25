@@ -13,11 +13,7 @@ for word in $(tr '\n' ' ');do
 
 	[ $(( $nword % 50 )) -eq 0 ]  &&  printf "$0: $nword ...\r"
 
-	# Huge speed-up (for pretesting the string with an internal shell feature):
-	# (if "[[ ]]" is not supported by the shell, comment it)
-	if [[ "${word}" != *http* ]];then continue;fi
-
-	while echo "${word}" |egrep -q -e "${URL_PATTERN}";do
+	while [[ "${word}" = *http*(s)://* ]];do
 		url=$( echo ${word} |sed -r -e "s,(.*)(${URL_PATTERN})(.*),\2," )
 		word=$( echo ${word} |sed -r -e "s,(.*)(${URL_PATTERN})(.*),\1\3," )
 
