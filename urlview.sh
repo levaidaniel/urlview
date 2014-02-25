@@ -33,6 +33,7 @@ unset nword
 printf "== URL viewer: $0 ==\n\n"
 printf "BROWSER is '${BROWSER:-<empty>}'\n\n"
 
+exec <&-
 exec 0</dev/tty
 
 PS3="<1-${#URLS[@]},x,b> #? "
