@@ -29,6 +29,11 @@ unset nword
 printf "== URL viewer: $0 ==\n\n"
 printf "BROWSER is '${BROWSER:-<empty>}'\n\n"
 
+if [ ${#URLS[@]} -eq 0 ];then
+	echo "No URLs found."
+	exit 0;
+fi
+
 exec <&-
 exec 0</dev/tty
 
