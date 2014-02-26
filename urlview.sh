@@ -6,11 +6,6 @@
 # See XXX-Zsh markings, if you use Zsh!
 
 
-# If you don't want to weed out duplicate URLs in the resulting list,
-# set this to 0.
-typeset -i SORTING=1
-
-
 # Zsh doesn't like zero as an index number in arrays...
 typeset -i i=1
 typeset -i nword=0
@@ -51,24 +46,6 @@ exec <&-
 exec 0</dev/tty
 
 
-if [ ${SORTING} -gt 0 ];then
-	# Sort the array of URLs
-	i=0
-	for url in $(echo ${URLS[@]} |tr ' ' '\n' |sort |uniq);do
-		i=$(( i + 1 ))
-		URLS[$i]=${url}
-	done
-	# Erase the leftover items from the previous, unsorted array
-	while [ ${#URLS[@]} -gt $i ];do
-		unset URLS[$(( ${#URLS[@]} ))]
-		# XXX-Zsh If you use Zsh, comment the previous line,
-		#     and uncomment the next one.
-		#URLS[$(( ${#URLS[@]} ))]=()
-	done
-fi
-unset i
-
-
 typeset QUIT=0
 FILTER_PATTERN=''
 
@@ -105,6 +82,22 @@ while [ ${QUIT} -le 0 ];do
 					echo -n "No matches for filter; I must reset it. (press <Enter>)"; read
 					FILTER_PATTERN=''
 				fi
+				break;
+			;;
+			S|s)
+				# Sort the array of URLs
+				i=0
+				for url in $(echo ${URLS[@]} |tr ' ' '\n' |sort |uniq);do
+					i=$(( i + 1 ))
+					URLS[$i]=${url}
+				done
+				# Erase the leftover items from the previous, unsorted array
+				while [ ${#URLS[@]} -gt $i ];do
+					unset URLS[$(( ${#URLS[@]} ))]
+					# XXX-Zsh If you use Zsh, comment the previous line,
+					#     and uncomment the next one.
+					#URLS[$(( ${#URLS[@]} ))]=()
+				done
 				break;
 			;;
 			*)
