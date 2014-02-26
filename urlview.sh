@@ -61,4 +61,6 @@ select url in ${URLS[@]};do
 			fi
 		;;
 	esac
+
+	echo ''
 done
