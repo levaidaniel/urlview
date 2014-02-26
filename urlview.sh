@@ -123,8 +123,8 @@ while [ ${QUIT} -le 0 ];do
 			;;
 		esac
 
-		echo ''
-
 		[ -n "${FILTER_PATTERN}" ]  &&  echo "Filter is: ${FILTER_PATTERN}"
+
+		printf "\nPress <Enter> to redisplay list\n"
 	done
 done
