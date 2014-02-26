@@ -49,7 +49,7 @@ exec 0</dev/tty
 typeset QUIT=0
 FILTER_PATTERN=''
 
-PS3="[<index>,x,b,f] #? "
+PS3="[<index>,x,b,f,s,?] #? "
 
 while [ ${QUIT} -le 0 ];do
 	[ -n "${FILTER_PATTERN}" ]  &&  echo "Filter is: ${FILTER_PATTERN}"
@@ -99,6 +99,12 @@ while [ ${QUIT} -le 0 ];do
 					#URLS[$(( ${#URLS[@]} ))]=()
 				done
 				break;
+			;;
+			\?)
+				echo "x,X,q,Q: Exit"
+				echo "B,b: Enter a new executable name for the BROWSER variable."
+				echo "F,f: Enter a filter pattern for filtering the URL list."
+				echo "S,s: Sort the URL list and delete duplicate entries."
 			;;
 			*)
 				[ -n "${url}" ]  ||  continue;
