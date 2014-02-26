@@ -100,7 +100,7 @@ while [ ${QUIT} -le 0 ];do
 				done
 				break;
 			;;
-			\?)
+			\?|help|h)
 				echo "x,X,q,Q: Exit"
 				echo "B,b: Enter a new executable name for the BROWSER variable."
 				echo "F,f: Enter a filter pattern for filtering the URL list."
