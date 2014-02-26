@@ -4,6 +4,11 @@
 # Distributed under the 2-clause BSD license (see LICENSE file)
 
 
+# If you don't want to weed out duplicate URLs in the resulting list,
+# set this to 0.
+typeset -i SORTING=1
+
+
 typeset -i i=0
 typeset -i nword=0
 
@@ -21,9 +26,9 @@ for word in $(tr '\n' ' ');do
 		i=$(( i + 1 ))
 	done
 done
-
-unset i
 unset nword
+unset word
+unset url
 
 
 printf "== URL viewer: $0 ==\n\n"
@@ -36,6 +41,22 @@ fi
 
 exec <&-
 exec 0</dev/tty
+
+
+if [ ${SORTING} -gt 0 ];then
+	# Sort the array of URLs
+	i=0
+	for url in $(echo ${URLS[@]} |tr ' ' '\n' |sort |uniq);do
+		URLS[$i]=${url}
+		i=$(( i + 1 ))
+	done
+	# Erase the leftover items from the previous, unsorted array
+	while [ ${#URLS[@]} -gt $i ];do
+		unset URLS[$(( ${#URLS[@]} - 1 ))]
+	done
+fi
+unset i
+
 
 PS3="<1-${#URLS[@]},x,b> #? "
 select url in ${URLS[@]};do
