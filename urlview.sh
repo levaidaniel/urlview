@@ -117,7 +117,7 @@ while [ ${QUIT} -le 0 ];do
 					echo "Wrong or empty BROWSER value: '${BROWSER}'"
 				else
 					echo "Executing: ${BROWSER} ${url}"
-					( ${BROWSER} "${url}" )
+					${BROWSER} "${url}"
 				fi
 			;;
 		esac
