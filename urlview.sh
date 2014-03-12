@@ -15,7 +15,7 @@ if [ -n "$ZSH_VERSION" ];then
 	set -o kshglob
 fi
 
-URL_PATTERN='https*://[[:alnum:]:\./?=&_\-%]+'
+URL_PATTERN='https*://[[:alnum:]:\./?=&_%+-]+'
 for word in $(tr '\n' ' ');do
 	nword=$(( nword + 1 ))
 
