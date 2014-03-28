@@ -15,15 +15,15 @@ if [ -n "$ZSH_VERSION" ];then
 	set -o kshglob
 fi
 
-URL_PATTERN='https*://[[:alnum:]\.-]+(:[0-9]+)*(/[[:alnum:]\./?=&_%+#-]*)*$'
+URL_PATTERN='https*://[[:alnum:]\.-]+(:[0-9]+)*(/[[:alnum:]\./?=&_%+#-]*)*'
 for word in $(tr '\n' ' ');do
 	nword=$(( nword + 1 ))
 
 	[ $(( $nword % 50 )) -eq 0 ]  &&  printf "$0: $nword ...\r"
 
 	while [[ "${word}" = *http*(s)://* ]];do
-		url=$( echo ${word} |sed -r -e "s,(.*)(${URL_PATTERN})(.*),\2," )
-		word=$( echo ${word} |sed -r -e "s,(.*)(${URL_PATTERN})(.*),\1\3," )
+		url=$( echo ${word} |sed -r -e "s,^(.*)(${URL_PATTERN})(.*)$,\2," )
+		word=$( echo ${word} |sed -r -e "s,^(.*)(${URL_PATTERN})(.*)$,\1\3," )
 
 		URLS[$i]=${url}
 		i=$(( i + 1 ))
