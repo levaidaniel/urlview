@@ -54,7 +54,7 @@ PS3="[<index>,x,b,f,s,?] #? "
 while [ ${QUIT} -le 0 ];do
 	[ -n "${FILTER_PATTERN}" ]  &&  echo "Filter is: ${FILTER_PATTERN}"
 
-	select url in $(echo ${URLS[@]} |tr ' ' '\n' |fgrep -e "${FILTER_PATTERN}");do
+	select url in $(echo ${URLS[@]} |tr ' ' '\n' |egrep -E -e "${FILTER_PATTERN}");do
 		case "${REPLY}" in
 			X|x|Q|q)
 				QUIT=1
@@ -65,9 +65,10 @@ while [ ${QUIT} -le 0 ];do
 			;;
 			F|f)
 				echo -n 'Enter a filter pattern <empty to reset>: '; read FILTER_PATTERN
-				FILTER_PATTERN=$( echo "${FILTER_PATTERN}" |sed -r -e 's,([$]),\\\1,g')
+				# escape '$' characters:
+				#FILTER_PATTERN=$( echo "${FILTER_PATTERN}" |sed -r -e 's,([$]),\\\1,g')
 
-				if ! echo ${URLS[@]} |tr ' ' '\n' |fgrep -q -e "${FILTER_PATTERN}";then
+				if ! echo ${URLS[@]} |tr ' ' '\n' |egrep -q -E -e "${FILTER_PATTERN}";then
 					# XXX
 					# This is needed with at least Bash 4.2.45,
 					# because when select .. in .. {} encounters an
