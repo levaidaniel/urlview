@@ -82,7 +82,7 @@ while [ ${QUIT} -le 0 ];do
 				# escape '$' characters:
 				#FILTER_PATTERN=$( echo "${FILTER_PATTERN}" |sed -r -e 's,([$]),\\\1,g')
 
-				if ! echo ${URLS[@]} |tr ' ' '\n' |egrep -q -E -e "${FILTER_PATTERN}";then
+				if ! echo ${URLS[@]} |egrep -q -E -e "${FILTER_PATTERN}";then
 					# XXX
 					# This is needed with at least Bash 4.2.45,
 					# because when select .. in .. {} encounters an
