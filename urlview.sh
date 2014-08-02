@@ -78,7 +78,7 @@ while [ ${QUIT} -le 0 ];do
 				echo -n 'Enter new BROWSER value: '; read BROWSER
 			;;
 			F|f)
-				echo -n 'Enter a filter pattern <empty to reset>: '; read FILTER_PATTERN
+				echo -n 'Enter a filter pattern <empty to reset>: '; read -r FILTER_PATTERN
 				# escape '$' characters:
 				#FILTER_PATTERN=$( echo "${FILTER_PATTERN}" |sed -r -e 's,([$]),\\\1,g')
 
