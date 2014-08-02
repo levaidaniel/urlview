@@ -16,16 +16,30 @@ if [ -n "$ZSH_VERSION" ];then
 fi
 
 URL_PATTERN='https*://[[:alnum:]\.-]+(:[0-9]+)*(/~*[[:alnum:]#$%&*+,./:;=?@{}|~^_-]+)*'
+url_prev=''
 for word in $(tr '\n' ' ');do
 	nword=$(( nword + 1 ))
 
 	[ $(( $nword % 50 )) -eq 0 ]  &&  printf "$0: $nword ...\r"
 
 	while [[ "${word}" = *http*(s)://* ]];do
-		url=$( echo ${word} |sed -r -e "s,^(.*)(${URL_PATTERN})(.*)$,\2," )
-		word=$( echo ${word} |sed -r -e "s,^(.*)(${URL_PATTERN})(.*)$,\1\3," )
+		url=$( echo ${word} |tr -d '"' |sed -r -e "s,^(.*)(${URL_PATTERN})(.*)$,\2," )
+
+		# Do not include the same url successively
+		[ "${url}" = "${url_prev}" ]  &&  break
+
+		# Fail-safe, to exclude garbage
+		# XXX this slows us down a bit
+		if [[ "${url}" != http*(s)://* ]];then
+			word=$( echo ${word} |tr -d '"' |sed -r -e "s,^(.*)(${url})(.*)$,\1\3," )
+			continue
+		fi
+
+		word=$( echo ${word} |tr -d '"' |sed -r -e "s,^(.*)(${URL_PATTERN})(.*)$,\1\3," )
 
 		URLS[$i]=${url}
+		url_prev=$url
+
 		i=$(( i + 1 ))
 	done
 done
