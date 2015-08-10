@@ -124,11 +124,11 @@ while [ ${QUIT} -le 0 ];do
 			*)
 				[ -n "${url}" ]  ||  continue;
 
-				if [ -z "${BROWSER}" ]  ||  [ ! -x "${BROWSER}" ];then
+				if [ -z "${BROWSER}" ];then
 					echo -n 'Wrong or empty BROWSER value! Enter a browser: '; read BROWSER
 				fi
 
-				if [ -z "${BROWSER}" ]  ||  [ ! -x "${BROWSER}" ];then
+				if [ -z "${BROWSER}" ];then
 					echo "Wrong or empty BROWSER value: '${BROWSER}'"
 				else
 					echo "Executing: ${BROWSER} ${url}"
